@@ -1,12 +1,4 @@
-<?php 
-
-/*
-	Brasil\Pernambuco
-	Developer: Matheus Johann Araújo
-	Data: 21/04/2018
-	GitHub: https://github.com/matheusjohannaraujo
-	Site: http://curriculo.totalh.net/matheusjohannaraujo    
-*/
+<?php
 
 if(($nome = $_GET['nome'] ?? false)){
 	echo "GET: Olá, {$nome}";
