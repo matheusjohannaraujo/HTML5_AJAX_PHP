@@ -2,7 +2,7 @@
 
 /*
 	Brasil\Pernambuco
-	Developer: Matheus Johann Aráujo
+	Developer: Matheus Johann Araújo
 	Data: 21/04/2018
 	GitHub: https://github.com/matheusjohannaraujo
 	Site: http://curriculo.totalh.net/matheusjohannaraujo    
