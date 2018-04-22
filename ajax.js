@@ -1,9 +1,8 @@
 /*
 	Brasil\Pernambuco
 	Developer: Matheus Johann Araújo
-	Data: 21/04/2018
-	GitHub: https://github.com/matheusjohannaraujo
-	Site: http://curriculo.totalh.net/matheusjohannaraujo    
+	Data: 22/04/2018
+	GitHub: https://github.com/matheusjohannaraujo  
 */
 
 function AJAX(){
