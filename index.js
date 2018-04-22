@@ -1,10 +1,10 @@
 /*
 	Brasil\Pernambuco
 	Developer: Matheus Johann Araújo
-	Data: 21/04/2018
-	GitHub: https://github.com/matheusjohannaraujo
-	Site: http://curriculo.totalh.net/matheusjohannaraujo    
+	Data: 22/04/2018
+	GitHub: https://github.com/matheusjohannaraujo  
 */
+
 window.addEventListener("load", function(event){
 
 	var inputFile = document.querySelectorAll("body > input[type='file']")[0];
