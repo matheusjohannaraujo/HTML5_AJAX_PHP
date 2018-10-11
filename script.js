@@ -2,7 +2,7 @@
 	Brasil\Pernambuco
 	Developer: Matheus Johann Araújo
 	Data: 22/04/2018
-	GitHub: https://github.com/matheusjohannaraujo  
+	Bitbucket: https://bitbucket.org/matheusjohannaraujo/html5_ajax_php/
 */
 
 window.addEventListener("load", function(event){
