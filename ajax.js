@@ -1,8 +1,8 @@
 /*
 	Brasil\Pernambuco
-	Developer: Matheus Johann AraÃºjo
+	Developer: Matheus Johann Araújo
 	Data: 22/04/2018
-	GitHub: https://github.com/matheusjohannaraujo  
+	Bitbucket: https://bitbucket.org/matheusjohannaraujo/html5_ajax_php/
 */
 
 function AJAX(){
@@ -53,7 +53,7 @@ function AJAX(){
 		};
 	    ajax.onloadstart = function(){
 	    	if(ajax.debug)
-				console.log("Carregamento dos dados comeÃ§ou!");
+				console.log("Carregamento dos dados começou!");
 		};
 		ajax.onloadend = function(){
 			if(ajax.debug)
