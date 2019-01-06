@@ -1,5 +1,10 @@
 <?php
 
+// Brasil\Pernambuco
+// Developer: Matheus Johann Araújo
+// Date: 2019-01-06
+// Bitbucket: https://bitbucket.org/matheusjohannaraujo/html5_ajax_php/
+
 if(!empty($_GET)){
 	echo "GET: ";
 	var_dump($_GET);

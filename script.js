@@ -1,12 +1,9 @@
-/*
-	Brasil\Pernambuco
-	Developer: Matheus Johann Araújo
-	Data: 22/04/2018
-	Bitbucket: https://bitbucket.org/matheusjohannaraujo/html5_ajax_php/
-*/
+// Brasil\Pernambuco
+// Developer: Matheus Johann Araújo
+// Date: 2019-01-06
+// Bitbucket: https://bitbucket.org/matheusjohannaraujo/html5_ajax_php/
 
 window.addEventListener("load", function(event){
-
 	const inputFile = document.querySelectorAll("body > input[type='file']")[0];
 	const inputText = document.querySelectorAll("body > input[type='text']")[0];
 	const button = document.querySelectorAll("body > button");
@@ -96,5 +93,4 @@ window.addEventListener("load", function(event){
 	    	alert("Não existem arquivos selecionados.");
 	    }
 	});
-
 });
