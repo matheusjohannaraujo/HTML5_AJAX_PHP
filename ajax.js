@@ -1,6 +1,6 @@
 /*
 	Brasil\Pernambuco
-	Developer: Matheus Johann Araújo
+	Developer: Matheus Johann Araï¿½jo
 	Data: 22/04/2018
 	Bitbucket: https://bitbucket.org/matheusjohannaraujo/html5_ajax_php/
 */
@@ -23,11 +23,13 @@ function AJAX(){
 		ajax.action = '';
 		ajax.params = '';
 		ajax.async = true;
-		ajax.beforeSend = function(i){};
+		ajax.user = null;
+		ajax.pass = null;
+		ajax.beforeSend = function(i){}
 		ajax.success = function(data){};
 		ajax.loading = function(i){
 			if(ajax.debug)
-				console.log("Loading: " + i + "%");	
+				console.log("Loading: " + i + "%");
 		};
 		ajax.onprogress = function(event){
 			ajax.loading(((event.loaded * 100) / event.total));
@@ -53,7 +55,7 @@ function AJAX(){
 		};
 	    ajax.onloadstart = function(){
 	    	if(ajax.debug)
-				console.log("Carregamento dos dados começou!");
+				console.log("Carregando os dados!");
 		};
 		ajax.onloadend = function(){
 			if(ajax.debug)
@@ -63,11 +65,54 @@ function AJAX(){
 	    	if(ajax.debug)
 	    		console.log("Dados enviados!");
 	    };
-	    ajax.onerror = function(){
-			console.log("Erro!");
+	    ajax.onerror = function(e){
+			console.log("Erro na requisiÃ§Ã£o, refazendo-a...");
+			console.log(e);
+			setTimeout(function(){
+				ajax.execute();
+			}, 10000);
 		};
 		ajax.onabort = function(){
 			console.log("Abortado!");
+		};
+		ajax.formDataToJson = function(formData) {
+			let object = {};
+			formData.forEach(function(value, key){
+				object[key] = value;
+			});
+			return JSON.parse(JSON.stringify(object));
+		};
+		ajax.jsonToString = function(object) {
+			let str = "";
+			Object.keys(ajax.params).forEach(key => str += `${key}=${ajax.params[key]}&`);
+			return str.slice(0, str.length -1);
+		};
+		ajax.jsonToFormData = function(object) {
+			const formData = new FormData();
+			Object.keys(object).forEach(key => formData.append(key, object[key]));
+			return formData;
+		};
+		ajax.paramsSetType = function(){
+			if(ajax.debug)
+				console.log("Type params: " + (typeof ajax.params));
+			if(ajax.method == "GET"){
+				if((typeof ajax.params) == 'object'){
+					if(ajax.params instanceof FormData){
+						ajax.params = ajax.formDataToJson(ajax.params);
+						ajax.params = ajax.jsonToString(ajax.params);
+					}else{
+						ajax.params = ajax.jsonToString(ajax.params);
+					}
+				}
+				ajax.params = "?" + ajax.params;
+			}else if(ajax.method == 'POST' || ajax.method == 'PUT'){
+				if((typeof ajax.params) == 'object' && !(ajax.params instanceof FormData)){
+					ajax.params = ajax.jsonToFormData(ajax.params);
+				}
+			}			
+		};
+		ajax.console = function(){
+			console.log(ajax);
 		};
 		var count0 = 0;
 		ajax.onreadystatechange = function(){
@@ -87,29 +132,35 @@ function AJAX(){
 					data = ajax.responseXML;
 				}
 				data = data.trim();
+				try{data = JSON.parse(data);}catch(e){}
 				if(ajax.debug){
-					console.log("Recebido: " + data);
-				}
-				setTimeout(function(){								
-					ajax.success(data);
-				}, 500);			
+					console.log("Recebido: ", data);
+				}								
+				ajax.success(data);
 			}
 		};
 	}
 	ajax.execute = function(){
-		if(ajax.method == 'GET' && (typeof ajax.params) != 'object'){
-			ajax.open(ajax.method, ajax.action + "?" + ajax.params, ajax.async);
-		    ajax.send(null);
-		}else if(ajax.method == 'POST' || ajax.method == 'PUT'){
-		   	ajax.open(ajax.method, ajax.action, ajax.async);
-		   	if((typeof ajax.params) != 'object'){
-		       	ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		    }else{
-		    	ajax.setRequestHeader("Cache-Control", "no-cache");
-		    }
-		    ajax.send(ajax.params);
-		}
+		try{
+			if(ajax.debug)
+				ajax.console();
+			ajax.paramsSetType();
+			if(ajax.method == 'GET' || ajax.method == 'DELETE'){
+				ajax.open(ajax.method, ajax.action + ajax.params, ajax.async, ajax.user, ajax.pass);
+				ajax.send(null);
+			}else if(ajax.method == 'POST' || ajax.method == 'PUT' || ajax.method == 'PATCH'){
+				ajax.open(ajax.method, ajax.action, ajax.async, ajax.user, ajax.pass);
+				if((typeof ajax.params) == 'string'){
+					ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				}else{
+					ajax.setRequestHeader("Cache-Control", "no-cache");
+				}
+				ajax.send(ajax.params);
+			}
+		}catch(error){
+			console.log(error);
+			ajax.onerror();
+		}		
 	}
-
     return ajax;
 }
