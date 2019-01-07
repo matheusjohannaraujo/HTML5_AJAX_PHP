@@ -3,7 +3,7 @@
 // Date: 2019-01-06
 // Bitbucket: https://bitbucket.org/matheusjohannaraujo/html5_ajax_php/
 
-function AJAX(){
+function AJAX(method = 'POST', action = '', params = null, success = data => data, async = true, debug = false, sendTypeJson = false, user = null, pass = null){
 	let ajax = false;
 	if(window.XMLHttpRequest){
 		ajax = new XMLHttpRequest();
@@ -13,105 +13,94 @@ function AJAX(){
 	   	}catch(e){
 	       	ajax = new ActiveXObject("Microsoft.XMLHTTP");
 	   	}
-	}
-	
-	if((typeof ajax) == "object"){		
-		ajax.debug = false;
+	}	
+	if(typeof ajax == "object"){		
+		ajax.debug = debug;
 		ajax.dump = {
 			data: [],
 			add: function(val){
 				this.data.push(val);
-			}			
+			}
 		};
-		ajax.method = 'POST';
-		ajax.action = '';
-		ajax.params = null;
-		ajax.async = true;
-		ajax.user = null;
-		ajax.pass = null;
-		ajax.sendTypeJson = false;
-		ajax.statusCode = function(i){
+		ajax.method = method;
+		ajax.action = action;
+		ajax.params = params;
+		ajax.async = async;
+		ajax.user = user;
+		ajax.pass = pass;
+		ajax.sendTypeJson = sendTypeJson;
+		ajax.statusCode = i => {
 			if(ajax.debug)
 				ajax.dump.add(["Status Code", ajax.status]);
 		}
-		ajax.beforeSend = function(i){
+		ajax.beforeSend = i => {
 			if(ajax.debug)
 				ajax.dump.add(["ReadyState", i]);
-		};
-		ajax.success = function(data){
-			if(ajax.debug)
-				ajax.dump.add(["Recebido", data]);
-		};
-		ajax.loading = function(i){
+		}
+		ajax.success = success;
+		ajax.loading = i => {
 			if(ajax.debug)
 				ajax.dump.add(["Loading", i + "%"]);
-		};
-		ajax.onprogress = function(event){
+		}
+		ajax.onprogress = event => {
 			ajax.loading(((event.loaded * 100) / event.total));
-		};
-		ajax.upload.loading = function(i){
+		}
+		ajax.upload.loading = i => {
 			if(ajax.debug)
 				ajax.dump.add(["Upload loading", i + "%"]);
-		};
+		}
 		var count1 = 0, count2 = 0;
-		ajax.upload.onprogress = function(event){
+		ajax.upload.onprogress = event => {
 			count2 = (((event.loaded * 100) / event.total).toFixed(2));
 			if(count1 != count2){
 				count1 = count2;
 				ajax.upload.loading(count1);
 			}			
-	    };
-	    ajax.upload.onload = function(){
+	    }
+	    ajax.upload.onload = () => {
 	    	if(ajax.debug)
 				ajax.dump.add(["Upload realizado!"]);
-		};
-		ajax.upload.onerror = function(){
+		}
+		ajax.upload.onerror = () => {
 			ajax.dump.add(["Erro no upload!"]);
-		};
-	    ajax.onloadstart = function(){
+		}
+	    ajax.onloadstart = () => {
 	    	if(ajax.debug)
 				ajax.dump.add(["Carregando os dados!"]);
-		};
-		ajax.onloadend = function(){
+		}
+		ajax.onloadend = () => {
 			if(ajax.debug)
 				ajax.dump.add(["Carregamento dos dados terminou!"]);
-		};
-	    ajax.onload = function(){
+		}
+	    ajax.onload = () => {
 	    	if(ajax.debug)
 				ajax.dump.add(["Dados enviados!"]);
-	    };
-	    ajax.onerror = function(e){
+	    }
+	    ajax.onerror = e => {
 			ajax.dump.add(["Erro na requisição, refazendo-a...", e]);
-			setTimeout(function(){
-				ajax.execute();
-			}, 10000);
-		};
-		ajax.onabort = function(){
+			setTimeout(ajax.run, 10000);
+		}
+		ajax.onabort = () => {
 			ajax.dump.add(["Abortado!"]);
-		};
-		ajax.formDataToJson = function(formData) {
+		}
+		ajax.formDataToJson = formData => {
 			let object = {};
 			formData.forEach(function(value, key){
 				object[key] = value;
 				console.log(value);
 			});
 			return JSON.parse(JSON.stringify(object));
-		};
-		ajax.jsonToString = function(object) {
+		}
+		ajax.jsonToString = object => {
 			let str = "";
 			Object.keys(ajax.params).forEach(key => str += `${key}=${ajax.params[key]}&`);
 			return str.slice(0, str.length -1);
-		};
-		ajax.jsonToFormData = function(object) {
-			const formData = new FormData();
-			Object.keys(object).forEach(key => formData.append(key, object[key]));
-			return formData;
-		};
-		ajax.paramsSetType = function(){
+		}
+		ajax.paramsSetType = () => {
 			if(ajax.debug)
 				ajax.dump.add(["Type Params", typeof ajax.params]);
 			if(ajax.method == "GET"){
-				if((typeof ajax.params) == 'object'){
+				if(typeof ajax.params == 'object'){
 					if(ajax.params instanceof FormData){
 						ajax.params = ajax.formDataToJson(ajax.params);
 						ajax.params = ajax.jsonToString(ajax.params);
@@ -122,12 +111,12 @@ function AJAX(){
 				if(ajax.params != null || ajax.params != '')
 					ajax.params = "?" + ajax.params;
 			}			
-		};
-		ajax.console = function(){
+		}
+		ajax.console = () => {
 			console.log(ajax);
-		};
+		}
 		var count0 = 0;
-		ajax.onreadystatechange = function(){
+		ajax.onreadystatechange = () => {
 			ajax.statusCode(ajax.status);
 			if(count0 != ajax.readyState && ajax.readyState <= 4){
 				count0 = ajax.readyState;
@@ -143,11 +132,13 @@ function AJAX(){
 				try{data = JSON.parse(data);}catch(e){}
 				if(!(ajax.status == 200 || ajax.status == 201))
 					ajax.dump.add(["Status Code", ajax.status, "https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml"]);
+				if(ajax.debug)
+					ajax.dump.add(["Recebido", data]);
 				ajax.success(data);
 			}
-		};
+		}
 	}
-	ajax.execute = function(){
+	ajax.run = () => {
 		try{
 			ajax.paramsSetType();
 			if(ajax.method == 'GET' || ajax.method == 'DELETE'){
@@ -158,10 +149,9 @@ function AJAX(){
 				if(typeof ajax.params == 'string'){
 					ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 				}else if(typeof ajax.params == 'object' && !(ajax.params instanceof Array) && !(ajax.params instanceof FormData) && !(ajax.params instanceof Blob) && !(ajax.params instanceof Int8Array)){
-					let params = ajax.jsonToString(ajax.params);
-					if(!ajax.sendTypeJson && params.length <= (1024 * 1024)){
+					if(!ajax.sendTypeJson){
 						ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-						ajax.params = params;
+						ajax.params = ajax.jsonToString(params);
 					}else{
 						ajax.setRequestHeader('Content-Type', 'application/json');
 						ajax.setRequestHeader("Cache-Control", "no-cache");
@@ -170,8 +160,8 @@ function AJAX(){
 				}
 				ajax.send(ajax.params);
 			}
-		}catch(error){
-			ajax.onerror(error);
+		}catch(err){
+			ajax.onerror(err);
 		}finally{
 			if(ajax.debug)
 				ajax.console();
