@@ -1,8 +1,3 @@
-// Brasil\Pernambuco
-// Developer: Matheus Johann Araújo
-// Date: 2019-01-06
-// Bitbucket: https://bitbucket.org/matheusjohannaraujo/html5_ajax_php/
-
 function AJAX(method = 'POST', action = '', params = null, success = data => data, async = true, debug = false, sendTypeJson = false, user = null, pass = null){
 	let ajax = false;
 	if(window.XMLHttpRequest){
