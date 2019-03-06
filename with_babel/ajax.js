@@ -1,8 +1,3 @@
-// Brasil\Pernambuco
-// Developer: Matheus Johann Araújo
-// Date: 2019-01-06
-// Bitbucket: https://bitbucket.org/matheusjohannaraujo/html5_ajax_php/
-
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
