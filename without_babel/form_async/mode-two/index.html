@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Using FormAsync - Mode Two</title>
+</head>
+<body>
+    <form method="POST" action="server.php/api/?token=123" id="form">
+        <input type="email" name="email" value="matheus@mail.com" required>
+        <br>
+        <input type="text" name="username" value="Matheus Johann Araújo" required>
+        <br>
+        <textarea name="coment" cols="30" rows="3">Tenho 21 anos, natural de Pernambuco - Brasil</textarea>
+        <br>
+        <input type="file" name="arquivo" multiple>
+        <br>
+        <select name="sexo">
+            <option value="M" checked="true">Masculino</option>
+            <option value="F">Feminino</option>        
+        </select>
+        <br>
+        <input type="submit" value="Enviar">    
+    </form>
+    <pre id="pre"></pre>
+    <script src="./AJAX.js"></script>
+    <script src="./FormAsync.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>
