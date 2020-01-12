@@ -3,7 +3,7 @@
 // Date: 11-01-2020
 // GitHub: https://github.com/matheusjohannaraujo/lib_ajax_and_form_async
 
-function AJAX(method = 'POST', action = '', params = null, success = data => data, async = true, debug = false, sendTypeJson = false, user = null, pass = null){
+function AJAX(method = 'POST', action = './', params = {}, success = data => data, async = true, debug = false, sendTypeJson = false, user = null, pass = null){
 	let ajax = false
 	if(window.XMLHttpRequest){
 		ajax = new XMLHttpRequest()
