@@ -10,8 +10,8 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 // GitHub: https://github.com/matheusjohannaraujo/lib_ajax_and_form_async
 function AJAX() {
   var method = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'POST';
-  var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-  var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var action = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : './';
+  var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var success = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : function (data) {
     return data;
   };
