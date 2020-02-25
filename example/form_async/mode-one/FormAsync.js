@@ -8,23 +8,23 @@ function FormAsync(){
     let formAsync = {}    
     formAsync.callback = arguments[0] ? arguments[0] : console.log
     formAsync.debug = arguments[1] ? arguments[1] : false
-
+    
     formAsync.getInputs = function($element){
-        let vetInput = false
-        if($element && $element.children){
-            vetInput = []
-            let tipoInput = ["input", "textarea", "select"]
-            for (let i = 0, j = $element.children.length; i < j; i++) {
-                const element = $element.children[i]
-                tipoInput.forEach(tipo => {
-                    if(tipo == element.tagName.toLowerCase()){
-                        vetInput.push(element)
-                    }
-                })
+      let vetInput = false      
+      if($element){
+          vetInput = []
+          let tipoInput = ["input", "textarea", "select"]
+          for (let i = 0; i < tipoInput.length; i++) {
+            let input = $element.querySelectorAll(tipoInput[i])
+            if(input.length > 0){
+              for (let j = 0; j < input.length; j++) {
+                vetInput.push(input[j])
+              }
             }
-        }        
-        return vetInput
-    }
+          }
+      }        
+      return vetInput
+    }    
     
     formAsync.getFormData = function($element, method){
         let formData = new FormData()
