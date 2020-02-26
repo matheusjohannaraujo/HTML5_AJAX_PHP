@@ -41,7 +41,9 @@ function FormAsync(){
                       if(size == 1){
                           formData.append(name, e.files[0])
                       }else if(size > 1){
-                          name += "[]"
+                          if(name.indexOf("[]") == -1){
+                              name += "[]";
+                          }
                           for (let i = 0; i < size; i++) {
                               formData.append(name, e.files[i])
                           }                    
